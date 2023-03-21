@@ -11,54 +11,86 @@ def operation_put():
             return True
 
 
-def first():
+def number_1(prev_result):
     while True:
         try:
-            a = float(input('Введите первое число: '))
+            if prev_result == 0:
+                a = float(input('Введите число: '))
+            else:
+                a = prev_result
             return a
         except ValueError:
             print('Error')
-        continue
-
-
-def second():
+        
+def number_2():
     while True:
         try:
-            a = float(input('Введите второе число: '))
+            a = float(input('Введите число: '))
             return a
         except ValueError:
             print('Error')
-        continue
-
      
 def calc():
+    print('Добро пожаловать в калькулятор\nЧтобы закончить работу нажмите комбинацию клавиш (Ctrl + C)')
+    
+    prev_result = 0
 
     while True:
-        n = ''
-        num_1 = first()
-        oper = operation_put()
-        num_2 = second()
+        try:
+            num_1 = number_1(prev_result)
+            op = operation_put()
+            num_2 = number_2()
+        except KeyboardInterrupt:
+            break
+        
+        try:
+            result = choice(num_1, op, num_2)
+            print(result)
+        except ZeroDivisionError:
+            continue
 
-        for i in oper:
+        prev_result = result
 
-            n += i[0]
+        #try:    
+        #    extend = input('Продолжаем с полученным числом? (Y or another symbol)\n').upper()
+        #    if extend == 'Y':
+        #        prev_result = result
+        #        continue
+        #    else:
+        #        prev_result = 0
+        #        continue
+        #except KeyboardInterrupt:
+        #    break
 
-            if n == '+':
-                print(num_1 + num_2)
 
-            elif n == '-':
-                print(num_1 - num_2)
+def choice(num_1, op, num_2):
+    if op == '+':
+        return addition(num_1, num_2)
 
-            elif n == '*':
-                print(num_1 * num_2)
+    if op == '-':
+        return subscrition(num_1, num_2)
 
-            elif n == '/':
-                if num_2 == 0:
-                    print('Деление на ноль не имеет смысла. Число стремится к бесконечности')
-                    break
-                print(num_1 / num_2)
-                
+    if op == '*':
+        return multiplication(num_1, num_2)
 
-calc()
+    if op == '/':
+        return devision(num_1, num_2)
+
+def addition(num_1, num_2):
+    return num_1 + num_2
+
+def subscrition(num_1, num_2):
+    return num_1 - num_2
+
+def multiplication(num_1, num_2):
+    return num_1 * num_2
+
+def devision(num_1, num_2):
+    return num_1 / num_2
+
+    
+
+if __name__ == '__main__':
+    calc()
     
 
